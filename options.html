@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Novel TTS Options</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 16px;
+      max-width: 600px;
+    }
+    h1 {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+    input[type="text"], input[type="number"], textarea, select {
+      width: 100%;
+      padding: 6px;
+      box-sizing: border-box;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      margin-top: 16px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      background-color: #0073e6;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    #message {
+      margin-top: 8px;
+      font-size: 12px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h1>Configure API &amp; Voice</h1>
+  <form id="optionsForm">
+    <label for="apiKey">API Key</label>
+    <input type="text" id="apiKey" name="apiKey" placeholder="Your x-api-key" required />
+
+    <label for="resourceId">Resource ID</label>
+    <input type="text" id="resourceId" name="resourceId" placeholder="X-Api-Resource-Id" required />
+
+    <label for="speaker">Speaker (Voice)</label>
+    <input type="text" id="speaker" name="speaker" placeholder="e.g. zh_male_beijingxiaoye_emo_v2_mars_bigtts" required />
+
+    <label for="additions">Additions (JSON string)</label>
+    <textarea id="additions" name="additions" rows="4" placeholder='{\"disable_markdown_filter\":true,\"enable_language_detector\":true}'></textarea>
+
+    <label for="format">Audio Format</label>
+    <select id="format" name="format">
+      <option value="mp3">MP3</option>
+      <option value="pcm">PCM</option>
+      <option value="aac">AAC</option>
+    </select>
+
+    <label for="sampleRate">Sample Rate</label>
+    <input type="number" id="sampleRate" name="sampleRate" min="8000" max="48000" step="1000" value="24000" />
+
+    <label for="maxLength">Maximum Characters per API Call</label>
+    <input type="number" id="maxLength" name="maxLength" min="100" max="10000" step="100" value="5000" />
+
+    <button type="submit">Save</button>
+    <div id="message"></div>
+  </form>
+  <script src="options.js"></script>
+</body>
+</html>

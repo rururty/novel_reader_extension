@@ -1,0 +1,63 @@
+{
+  "manifest_version": 3,
+  "name": "Novel TTS Reader",
+  "description": "Read novels on any webpage using Volcano Engine Speech Synthesis API.",
+  "version": "1.0.0",
+  
+  /*
+   * Grant the extension permission to interact with the active tab and store
+   * user‑supplied credentials (API key, resource ID, voice, etc.).  The
+   * `host_permissions` entry allows the background script to issue cross
+   * origin requests directly to the Volcano Engine API without a proxy
+   * server.  Without this permission Chrome would block the network
+   * request due to CORS restrictions.
+   */
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://openspeech.bytedance.com/*"
+  ],
+
+  /*
+   * Inject our content script into all pages.  The content script is
+   * responsible for retrieving either the user’s current text selection or
+   * the entire page text.  It listens for messages from the popup and
+   * returns the selected or full text back to the caller.
+   */
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+
+  /*
+   * Define the background service worker.  It listens for synthesis
+   * requests, fetches audio from the Volcano Engine API and returns
+   * temporary object URLs back to the popup for playback.
+   */
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  /*
+   * Provide a simple popup UI so the user can start and stop reading
+   * without navigating away from the current page.  The popup also
+   * contains a link to the options page where credentials and voice
+   * parameters can be configured.
+   */
+  "action": {
+    "default_popup": "popup.html"
+  },
+
+  /*
+   * Allow the user to supply their own API key, resource ID and voice
+   * settings via a dedicated options page.  These settings are stored in
+   * `chrome.storage.local` and read by the background worker on demand.
+   */
+  "options_page": "options.html"
+}
